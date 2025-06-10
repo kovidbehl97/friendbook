@@ -1,0 +1,231 @@
+// friendbook/server/prisma/schema.prisma
+generator client {
+provider = "prisma-client-js"
+}
+
+datasource db {
+provider = "mongodb"
+url = env("DATABASE_URL")
+}
+
+enum PostType {
+text
+photo
+video
+feeling
+activity
+}
+
+enum RequestStatus {
+pending
+accepted
+rejected
+}
+
+model RefreshToken {
+id String @id @default(auto()) @map("_id") @db.ObjectId
+token String @unique
+userId String @db.ObjectId
+user User @relation(fields: [userId], references: [id])
+createdAt DateTime @default(now())
+expiresAt DateTime
+}
+
+// New Enums for specific profile fields
+enum MaritalStatus {
+SINGLE
+IN_RELATIONSHIP
+MARRIED
+DIVORCED
+WIDOWED
+COMPLICATED
+// Add other statuses as needed
+}
+
+enum Gender {
+MALE
+FEMALE
+NON_BINARY
+PREFER_NOT_TO_SAY
+CUSTOM // Added for flexibility if user wants to specify
+}
+
+model User {
+id String @id @default(auto()) @map("_id") @db.ObjectId
+name String
+email String @unique
+password String
+bio String? // Existing field
+
+// New Profile Image and Cover Image fields
+profileImageUrl String? // URL for the user's profile picture
+coverImageUrl String? // URL for the user's cover image
+
+// About - Overview Fields
+currentWorkplace String?
+hometown String?
+studiedAt String?
+maritalStatus MaritalStatus? // Enum for marital status
+
+// Contact Info (can be different from registration email)
+contactPhoneNumber String?
+contactEmail String?
+website String?
+socialLinks String[] // Array of URLs or identifiers for social media
+
+// Places Lived
+currentCity String?
+pastCities String[] // Array of past cities
+
+// Basic Info
+gender Gender? // Enum for gender
+pronouns String? // Free text for pronouns (e.g., he/him, she/her, they/them)
+dateOfBirth DateTime? // Date of Birth
+languages String[] // Array of languages spoken
+
+// Relations for Work and Education Experiences (new separate models)
+workExperiences WorkExperience[]
+educationExperiences EducationExperience[]
+
+// Existing Relations
+posts Post[]
+comments Comment[]
+sentFriendRequests FriendRequest[] @relation("SentFriendRequests")
+receivedFriendRequests FriendRequest[] @relation("ReceivedFriendRequests")
+friendsA Friendship[] @relation("userA")
+friendsB Friendship[] @relation("userB")
+messagesSent Message[] @relation("MessagesSent")
+messagesReceived Message[] @relation("MessagesReceived")
+refreshTokens RefreshToken[]
+// UPDATED: Notifications now have two relations: one as recipient and one as sender
+notificationsReceived Notification[] @relation("Recipient")
+notificationsSent Notification[] @relation("Sender")
+createdAt DateTime @default(now())
+}
+
+// New Model for Work Experiences
+model WorkExperience {
+id String @id @default(auto()) @map("_id") @db.ObjectId
+userId String @db.ObjectId
+user User @relation(fields: [userId], references: [id])
+company String // Name of the company
+position String? // Job title/position
+description String?
+startDate DateTime? // Start date of employment
+endDate DateTime? // End date of employment (null if current)
+isCurrent Boolean @default(false) // Flag if this is the current job
+createdAt DateTime @default(now())
+updatedAt DateTime @updatedAt // Auto-update timestamp
+}
+
+// New Model for Education Experiences
+model EducationExperience {
+id String @id @default(auto()) @map("_id") @db.ObjectId
+userId String @db.ObjectId
+user User @relation(fields: [userId], references: [id])
+institution String // Name of the institution (e.g., university, college)
+degree String? // Degree obtained (e.g., Bachelor of Science)
+fieldOfStudy String? // Field of study (e.g., Computer Science)
+description String?
+startDate DateTime? // Start date of education
+endDate DateTime? // End date of education (null if current)
+createdAt DateTime @default(now())
+updatedAt DateTime @updatedAt // Auto-update timestamp
+}
+
+
+model Post {
+id String @id @default(auto()) @map("_id") @db.ObjectId
+userId String @db.ObjectId
+user User @relation(fields: [userId], references: [id])
+type PostType
+text String?
+photoUrl String?
+videoUrl String?
+taggedUserIds String[] @db.ObjectId
+likes String[] @db.ObjectId
+comments Comment[]
+sharedPostId String? @db.ObjectId
+sharedBy Post? @relation("Shares", fields: [sharedPostId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+shares Post[] @relation("Shares")
+messages Message[]
+createdAt DateTime @default(now())
+}
+
+model Comment {
+id String @id @default(auto()) @map("_id") @db.ObjectId
+postId String @db.ObjectId
+post Post @relation(fields: [postId], references: [id])
+userId String @db.ObjectId
+user User @relation(fields: [userId], references: [id])
+content String
+likes String[] @db.ObjectId
+createdAt DateTime @default(now())
+}
+
+model FriendRequest {
+id String @id @default(auto()) @map("_id") @db.ObjectId
+senderId String @db.ObjectId
+receiverId String @db.ObjectId
+status RequestStatus @default(pending)
+sender User @relation("SentFriendRequests", fields: [senderId], references: [id])
+receiver User @relation("ReceivedFriendRequests", fields: [receiverId], references: [id])
+createdAt DateTime @default(now())
+
+@@unique([senderId, receiverId])
+@@index([senderId])
+@@index([receiverId])
+}
+
+model Friendship {
+id String @id @default(auto()) @map("_id") @db.ObjectId
+userAId String @db.ObjectId
+userA User @relation("userA", fields: [userAId], references: [id], onDelete: Cascade)
+userBId String @db.ObjectId
+userB User @relation("userB", fields: [userBId], references: [id], onDelete: Cascade)
+createdAt DateTime @default(now())
+
+@@unique([userAId, userBId])
+@@index([userAId])
+@@index([userBId])
+}
+
+model Message {
+id String @id @default(auto()) @map("_id") @db.ObjectId
+senderId String @db.ObjectId
+receiverId String @db.ObjectId
+content String
+postId String? @db.ObjectId
+post Post? @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+sender User @relation("MessagesSent", fields: [senderId], references: [id])
+receiver User @relation("MessagesReceived", fields: [receiverId], references: [id])
+createdAt DateTime @default(now())
+}
+
+// CORRECTED: Notification model now has a senderId and a relation to the sender user.
+model Notification {
+id String @id @default(auto()) @map("_id") @db.ObjectId
+recipientId String @db.ObjectId
+recipient User @relation("Recipient", fields: [recipientId], references: [id], onDelete: Cascade)
+senderId String @db.ObjectId
+sender User @relation("Sender", fields: [senderId], references: [id], onDelete: Cascade)
+type NotificationType
+relatedId String @db.ObjectId
+message String
+isRead Boolean @default(false)
+createdAt DateTime @default(now())
+
+@@index([recipientId])
+@@index([createdAt])
+}
+
+enum NotificationType {
+friendRequest
+friendRequestAccepted
+friendRequestRejected
+postLiked
+commentLiked
+postCommented
+userTagged
+newMessage
+}
