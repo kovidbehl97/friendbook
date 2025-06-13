@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import fileUpload from 'express-fileupload';
 
 import authRoutes from './routes/authRoutes';
 
@@ -12,6 +13,11 @@ app.use(cors(
     credentials: true,
   }
 ));
+
+app.use(fileUpload({
+  useTempFiles: true,
+  tempFileDir: '/tmp/'
+}));
 
 app.use(express.json());
 app.use(cookieParser());
