@@ -2,12 +2,13 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { PrismaClient } from '@prisma/client'; // Ensure PrismaClient is imported
+import dotenv from 'dotenv';
 
+dotenv.config();
 const prisma = new PrismaClient();
 
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET!;
-const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET!;
-
+const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET!; 
 export const registerUser = async (data: any) => {
   const { name, email, password } = data;
 
