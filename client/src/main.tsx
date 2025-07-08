@@ -6,10 +6,13 @@ import {
   Navigate,
 } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./index.css";
 
 import LoginPage from "./routes/login/LoginForm";
 import RegisterPage from "./routes/register/RegisterForm";
+
+const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
   {
@@ -28,8 +31,10 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <AuthProvider>
-      <RouterProvider router={router} />
-    </AuthProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
+    </QueryClientProvider>
   </StrictMode>
 );
