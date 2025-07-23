@@ -10,8 +10,10 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import SocketProvider from "./contexts/SocketContext";
 import "./index.css";
 
+import ProtectedRoute from "./routes/ProtectedRoute";
 import LoginPage from "./routes/login/LoginForm";
 import RegisterPage from "./routes/register/RegisterForm";
+import HomePage from "./routes/home/HomePage";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +25,15 @@ const router = createBrowserRouter([
   {
     path: "/register",
     element: <RegisterPage />,
+  },
+  {
+
+    path: "/",
+    element: (
+      <ProtectedRoute>
+        <HomePage />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "*",
