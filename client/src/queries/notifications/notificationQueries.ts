@@ -78,7 +78,7 @@ export const useMarkNotificationAsRead = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: markNotificationAsReadApi,
-    onSuccess: (data, notificationId) => {
+    onSuccess: (_, notificationId) => {
       queryClient.setQueryData<{ notifications: Notification[] }>(['notifications'], (oldData) => {
         if (!oldData) return oldData;
         const updatedNotifications = oldData.notifications.map((notif) =>

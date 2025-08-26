@@ -1,6 +1,6 @@
 // friendbook/client/src/routes/HomePage.tsx
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import NavBar from "../../components/NavBar";
 import MessengerOverlay from "../../components/messages/MessengerOverlay";

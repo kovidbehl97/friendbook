@@ -1,6 +1,6 @@
 // client/src/routes/profile/ContactAndBasicInfoSection.tsx
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axiosInstance from "../../../api/axiosInstance";
 import ProfileFieldsAddEditBox from "../ProfileFieldsAddEditBox";

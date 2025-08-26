@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useCurrentUser } from "../queries/users/useCurrentUser";
 import { useAuth } from "../contexts/AuthContext";
 import { useSocket } from '../contexts/SocketContext';

@@ -1,5 +1,4 @@
 // client/src/routes/friends/FriendsPageMain.tsx
-import React from 'react';
 import FriendCard from '../../components/friends/FriendCard'; // Adjust path if needed
 import { useFriends } from '../../queries/friends/friendQueries'; // Import the hook
 

@@ -1,6 +1,4 @@
 // client/src/components/friends/FriendRequestCard.tsx
-
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAcceptFriendRequest, useRejectFriendRequest } from '../../queries/friends/friendQueries'; // Import mutations
 

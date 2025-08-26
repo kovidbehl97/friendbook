@@ -1,7 +1,4 @@
-import React from 'react';
 import { useFriends } from '../../queries/friends/friendQueries';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faMessage } from '@fortawesome/free-solid-svg-icons';
 import { useMessenger } from '../../contexts/MessengerContext';
 
 // Use a constant for the placeholder URL

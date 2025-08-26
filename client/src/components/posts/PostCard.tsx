@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { useLikePost, useDeletePost, UserMinimal } from "../../queries/posts/postQueries";
+import { useLikePost, useDeletePost } from "../../queries/posts/postQueries";
 import { useCurrentUser } from "../../queries/users/useCurrentUser";
 import {
   useCommentsForPost,
@@ -13,7 +13,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTrashCan,
   faThumbsUp,
-  faUserTag,
 } from "@fortawesome/free-solid-svg-icons";
 import { faComment } from "@fortawesome/free-regular-svg-icons";
 import { faThumbsUp as faThumbsUpReg } from "@fortawesome/free-regular-svg-icons";

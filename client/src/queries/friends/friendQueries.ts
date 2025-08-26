@@ -125,7 +125,7 @@ export const useAcceptFriendRequest = () => {
     mutationFn: async ({ requestId }) => {
       await axiosInstance.post(`/friends/request/accept/${requestId}`);
     },
-    onSuccess: (_, variables) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['friendRequestsReceived'] });
       queryClient.invalidateQueries({ queryKey: ['friends'] });
     },
@@ -143,7 +143,7 @@ export const useRejectFriendRequest = () => {
     mutationFn: async ({ requestId }) => {
       await axiosInstance.post(`/friends/request/reject/${requestId}`);
     },
-    onSuccess: (_, variables) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['friendRequestsReceived'] });
     },
     onError: (error) => {

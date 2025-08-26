@@ -1,7 +1,7 @@
 // friendbook/client/src/queries/posts/postQueries.ts
 import { useQuery, useMutation, useQueryClient, UseMutationOptions, QueryKey } from '@tanstack/react-query';
 import axiosInstance from '../../api/axiosInstance';
-import { useCurrentUser, User } from '../users/useCurrentUser';
+import { useCurrentUser } from '../users/useCurrentUser';
 
 export type PostType = 'text' | 'photo' | 'video' | 'feeling' | 'activity';
 

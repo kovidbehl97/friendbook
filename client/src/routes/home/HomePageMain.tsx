@@ -1,13 +1,10 @@
-import React from 'react';
 import CreatePostForm from '../../components/posts/CreatePostForm';
 import PostCard from '../../components/posts/PostCard';
 import { usePosts, useDeletePost } from '../../queries/posts/postQueries';
-import { useCurrentUser } from '../../queries/users/useCurrentUser';
 
 function HomePageMain() {
   const { data: posts, isLoading, isError, error } = usePosts();
-  const { data: currentUser } = useCurrentUser();
-  
+
   const deletePostMutation = useDeletePost();
 
   // FIX: This handler function is now simplified to only accept postId

@@ -1,4 +1,3 @@
-import React from "react";
 import { NavLink, Outlet, useOutletContext } from "react-router-dom";
 import { UserProfileData } from "../../../routes/profile/Profile";
 

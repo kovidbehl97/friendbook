@@ -88,7 +88,7 @@ export const useSendMessage = () => {
       const response = await axiosInstance.post('/messages', { receiverId, content, postId });
       return response.data;
     },
-    onSuccess: (newMessage, variables) => {
+    onSuccess: (_, variables) => {
       // Invalidate messages for this conversation to refetch the latest state
       queryClient.invalidateQueries({ queryKey: ['messages', variables.receiverId] });
       // Invalidate conversations list to update last message/time

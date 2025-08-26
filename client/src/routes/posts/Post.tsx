@@ -1,6 +1,5 @@
 // src/routes/posts/Post.tsx
 
-import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import axiosInstance from '../../api/axiosInstance';
@@ -8,7 +7,6 @@ import PostCard from '../../components/posts/PostCard';
 // Use the updated Post type
 import type { Post as PostType } from '../../queries/posts/postQueries';
 import { useDeletePost } from '../../queries/posts/postQueries';
-import { useCurrentUser } from '../../queries/users/useCurrentUser';
 
 // --- API Function ---
 const fetchPostById = async (postId: string): Promise<PostType> => {
@@ -19,7 +17,6 @@ const fetchPostById = async (postId: string): Promise<PostType> => {
 // This component is already using the modern function syntax, so no change here
 function Post() {
   const { postId } = useParams<{ postId: string }>();
-  const { data: currentUser } = useCurrentUser();
   const deletePostMutation = useDeletePost();
 
   const { data: post, isLoading, isError, error } = useQuery({
@@ -65,9 +62,6 @@ function Post() {
       </div>
     );
   }
-
-  // The Post type now has a 'user' property, so this works
-  const isAuthor = currentUser?.id === post.user.id;
 
   return (
     <div className="w-full flex justify-center">

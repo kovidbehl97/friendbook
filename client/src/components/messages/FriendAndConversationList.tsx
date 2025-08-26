@@ -1,8 +1,8 @@
 // client/src/components/messages/FriendAndConversationList.tsx
 
-import React, { useState, useMemo } from 'react';
-import { useConversations, Conversation } from '../../queries/messages/messageQueries';
-import { useFriends, Friend } from '../../queries/friends/friendQueries'; // FIX 1: Changed FriendDisplayItem to Friend
+import { useState, useMemo } from 'react';
+import { useConversations} from '../../queries/messages/messageQueries';
+import { useFriends} from '../../queries/friends/friendQueries'; // FIX 1: Changed FriendDisplayItem to Friend
 import { useCurrentUser } from '../../queries/users/useCurrentUser';
 
 interface FriendAndConversationListProps {

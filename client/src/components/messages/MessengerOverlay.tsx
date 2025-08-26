@@ -1,6 +1,6 @@
 // client/src/components/common/MessengerOverlay.tsx
 
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import FriendAndConversationList from '../messages/FriendAndConversationList'; 
 import ChatWindow from '../messages/ChatWindow';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

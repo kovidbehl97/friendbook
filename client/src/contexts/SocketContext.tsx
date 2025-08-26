@@ -1,5 +1,5 @@
 // friendbook/client/src/contexts/SocketContext.tsx
-import React, { createContext, useContext, useEffect, useRef, useState, ReactNode } from 'react';
+import React, { createContext, useContext, ReactNode } from 'react';
 import useWebSocket from 'react-use-websocket';
 import { useAuth } from './AuthContext';
 
@@ -15,7 +15,7 @@ const SocketProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
   // useWebSocket hook with the dynamic URL
   const { sendMessage, lastMessage, readyState } = useWebSocket(user && accessToken ? wsUrl : null, {
-    shouldReconnect: (closeEvent) => true, // Always attempt to reconnect
+    shouldReconnect: () => true, // Always attempt to reconnect
     reconnectInterval: 3000,
     reconnectAttempts: 10,
   });

@@ -1,6 +1,6 @@
 // client/src/components/messages/ChatWindow.tsx
 
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useMessagesForConversation, useSendMessage } from '../../queries/messages/messageQueries';
 import { useUserProfile } from '../../queries/users/useUserProfile';
 import { useCurrentUser } from '../../queries/users/useCurrentUser';
@@ -22,7 +22,7 @@ function ChatWindow({ friendId, onClose }: ChatWindowProps) {
   const { data: friendProfile } = useUserProfile(friendId);
 
   const [messageContent, setMessageContent] = useState('');
-  const [page, setPage] = useState(1);
+  const [page] = useState(1);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const {
