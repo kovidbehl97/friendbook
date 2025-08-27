@@ -11,7 +11,7 @@ export const useSocket = () => {
 
 const SocketProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { user, accessToken } = useAuth();
-  const wsUrl = `ws://localhost:5001?token=${accessToken}`; // <-- Pass token in URL
+  const wsUrl = `ws://friendbook-server1.vercel.app?token=${accessToken}`; // <-- Pass token in URL
 
   // useWebSocket hook with the dynamic URL
   const { sendMessage, lastMessage, readyState } = useWebSocket(user && accessToken ? wsUrl : null, {
